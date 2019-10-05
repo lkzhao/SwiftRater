@@ -149,15 +149,13 @@ import StoreKit
             return false
         }
         
-        SwiftRater.shared.showRatingAlert(host: host, force: false)
+        SwiftRater.shared.showRatingAlert(host: host)
         return true
     }
     
     @objc public static func rateApp(host: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) {
         NSLog("[SwiftRater] Trying to show review request dialog.")
-        SwiftRater.shared.showRatingAlert(host: host, force: true)
-
-        UsageDataManager.shared.isRateDone = true
+        SwiftRater.shared.showRatingAlert(host: host)
     }
 
     @objc public static func reset() {
@@ -285,9 +283,9 @@ import StoreKit
         UsageDataManager.shared.incrementSignificantUseCount()
     }
 
-    private func showRatingAlert(host: UIViewController?, force: Bool) {
+    private func showRatingAlert(host: UIViewController?) {
         NSLog("[SwiftRater] Trying to show review request dialog.")
-        if #available(iOS 10.3, *), SwiftRater.useStoreKitIfAvailable, !force {
+        if #available(iOS 10.3, *), SwiftRater.useStoreKitIfAvailable {
             SKStoreReviewController.requestReview()
             UsageDataManager.shared.isRateDone = true
         } else {
